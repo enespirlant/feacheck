@@ -71,3 +71,18 @@ def test_elhesap_yaml_eslesme_ve_karsilastirma(tmp_path):
     _, html, res = finalize(raw, model_name="Konsol aks", store=Store(tmp_path), open_browser=False)
     assert not res["hand_calc"]["ok"]                                    # 113,8 vs 100: %13,8 > %10
     assert any(f.startswith("El hesabıyla uyuşmuyor") for f in res["findings"])
+
+
+def test_rover_teker_yukleri_elle():
+    # 50 kg, 4 teker, Ø200, 2 N·m × 10 × 0,9: motor 180 N verir, zemin 0,8·122,6 = 98,1 N → zemin sınırlar
+    from feacheck import handcalc as h
+    r = h.rover_wheel_loads(50, 4, 200, 2, gear_ratio=10, eta=0.9)
+    v = r["value"]
+    assert v["Fz_statik"] == pytest.approx(122.625)
+    assert v["Fz_tasarim"] == pytest.approx(306.5625)
+    assert v["Fx_cekis"] == pytest.approx(98.1) and r["cekis_siniri"] == "zemin"
+    assert v["Fy_yanal"] == pytest.approx(61.3125)
+    assert v["M_aks_Nmm"] == pytest.approx(9810)
+    assert h.rover_wheel_loads(50, 4, 200, 0.5)["cekis_siniri"] == "motor"  # 0,5 N·m → 10 N < 98 N
+    with pytest.raises(ValueError):
+        h.rover_wheel_loads(0, 4, 200, 2)

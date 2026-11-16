@@ -104,6 +104,34 @@ def kt_shaft_shoulder(D: float, d: float, r: float, load: str = "bending") -> di
     raise ValueError(f"h/r = {hr:.3f} geçerlilik aralığı dışında ({load}: {rng})")
 
 
+# ------------------------------------------------------------------ rover teker yükleri
+G = 9.81
+
+
+def rover_wheel_loads(m_kg: float, n_wheels: int, D_wheel_mm: float, T_motor_Nm: float,
+                      gear_ratio: float = 1.0, eta: float = 1.0, k_dyn: float = 2.5,
+                      mu: float = 0.8, mu_lat: float = 0.5) -> dict:
+    """Tek tekerin tasarım yükleri (N). Eşit yük paylaşımı varsayılır.
+
+    k_dyn, mu, mu_lat VARSAYIMDIR (engel/çukur darbesi, toprak-teker sürtünmesi); rover_girdi.yaml'da
+    kullanıcı onaylar. Çekiş kuvveti motorun verebileceği ile zeminin taşıyabileceğinin küçüğüdür.
+    """
+    if min(m_kg, n_wheels, D_wheel_mm, gear_ratio, eta, k_dyn) <= 0 or T_motor_Nm < 0:
+        raise ValueError("kütle, teker sayısı, çap, oran, verim ve k_dyn pozitif olmalı")
+    r = D_wheel_mm / 2
+    Fz = m_kg * G / n_wheels
+    Fx_motor = T_motor_Nm * 1000 * gear_ratio * eta / r
+    Fx_zemin = mu * Fz
+    Fx = min(Fx_motor, Fx_zemin)
+    return _res(
+        {"Fz_statik": Fz, "Fz_tasarim": k_dyn * Fz, "Fx_cekis": Fx, "Fy_yanal": mu_lat * Fz,
+         "M_aks_Nmm": Fx * r},
+        "Fz = mg/n; Fz,t = k·Fz; Fx = min(T·i·η/r, μ·Fz); Fy = μy·Fz; M = Fx·r",
+        "statik denge + Coulomb sürtünmesi; k_dyn, μ, μy varsayım",
+        cekis_siniri="motor" if Fx_motor <= Fx_zemin else "zemin",
+        varsayimlar={"k_dyn": k_dyn, "mu": mu, "mu_lat": mu_lat})
+
+
 # ------------------------------------------------------------------ karşılaştırma
 def _n(v: float) -> str:
     return f"{v:.4g}".replace(".", ",")

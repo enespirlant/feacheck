@@ -1,5 +1,12 @@
 # Değişiklik günlüğü
 
+## Yayınlanmamış
+
+### Eklendi
+- `examples/make_lbraket.py`: L-braket STEP üretici (R0/R5 mevcut dosyalarla birebir aynı hacim ve yüzler; R1, R2 üretildi).
+- `handcalc.rover_wheel_loads`: teker başına düşey/tasarım/çekiş/yanal yük ve aks momenti; çekişi motor ya da zemin sınırlar.
+- `examples/rover_girdi.yaml`: rover pilotu için doldurulacak girdi formu.
+
 ## 0.2.0 (2026-11-17)
 
 Gerçek Ansys koşularıyla sınanan ilk sürüm. Her "düzeltildi" maddesi gerçek bir koşunun yakaladığı bir hatadır ve

@@ -157,3 +157,10 @@ Kaba mesh'te radyusun çokgen gibi temsil edilmesi tepeyi biraz şişiriyor olab
 - NASIL_CALISIR.md: tüm modüller, gerekçeler, R5 hikâyesi, 10 soru, 60 sn anlatım. Rehberi yazarken büyüme üssü
   göstergesinin bölgeleri (0,3 eşiği) ile karar mantığı (q > 0,1 + yüz tipi) arasında tutarsızlık bulundu, düzeltildi.
 - 66 test geçiyor (+1 atlanan).
+
+## 2026-11-17 — ajan çalıştırması (PC, kullanıcı uyurken, 3 görev)
+- PC kopyası git deposu yapıldı (önceki commit geçmişi bundle'da, PC'de yok). .gitignore: *.tgz, *.bundle, egg-info, .feacheck/.
+- Görev 5: `examples/make_lbraket.py`; ölçüler L_braket_R5.step'ten ölçüldü (80×70, t 10, W 30). R0/R5 yeniden üretimi
+  orijinalle birebir (V 42000 / 42160,95 mm³, radyus yüzü 235,62 mm²). `parts/L_braket_R1.step`, `R2.step` yazıldı.
+- Rover pilotu: `rover_wheel_loads` + `rover_girdi.yaml` (veri klasörüne de kopyalandı). k_dyn 2,5, μ 0,8, μy 0,5 varsayım.
+- 89 test geçiyor (PC'de cadquery var, atlanan yok).

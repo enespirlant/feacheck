@@ -29,7 +29,7 @@ teker çapı, motor torku, bağlantı şekli).
 ## 15.11 akşam (kullanıcı yokken)
 - [x] GCI, Celik vd. 2008 Tablo 1 çözülmüş örneğiyle birebir doğrulandı; e_ext eklendi.
 - [x] El hesabı modülü handcalc.py + elhesap.yaml + rapor karşılaştırması (cetvelde aralık bandı, kontrol satırı, bölüm).
-- [ ] Rover pilotunda handcalc ile yük/el hesabı birlikte.
+- [ ] Rover pilotunda handcalc ile yük/el hesabı birlikte. (Yük fonksiyonu + rover_girdi.yaml hazır; kullanıcı formu dolduracak)
 
 ## 17.11 gece
 - [x] 16.11 R5 tekrarı: 15.11 koşusuyla birebir aynı → tekrarlanabilirlik testi.
@@ -55,7 +55,7 @@ teker çapı, motor torku, bağlantı şekli).
       o yüze R/4 → R/6 → R/9 boyutlarıyla ek seri; analizde bu seriden tasarım gerilmesi; raporda gösterim
 - [x] 3. Dışlama bölgesi: Lc/2 yerine mesnet/yük yüz alanına bağlı (√A, alt sınır 2·h0, üst sınır Lc/2)
 - [x] 4. R5 el hesabı: birebir abak yok; alt sınır omuz radyusu Kt≈1,27 → ~168 MPa, üst sınır Winkler eğri kiriş → ~201 MPa; FEA 182–186 arada
-- [ ] 5. Radyus serisi için R1 / R2 L-braket STEP dosyaları (R0 ve R5 mevcut)
+- [x] 5. Radyus serisi için R1 / R2 L-braket STEP dosyaları (examples/make_lbraket.py; parts/ altına yazıldı). Ansys koşusu kullanıcıda
 - [x] 6. Eleman derecesi kontrolü (Element Order = Linear ise uyarı)
 - [x] 7. Kalınlık boyunca eleman sayısı uyarısı (t_eff / h_ince < 2)
 - [x] 8. Mesnet başına tepki + iç kuvvet oranı Σ|R_i| / |ΣR_i| (aşırı kısıtlama uyarısı)
