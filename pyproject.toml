@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "feacheck"
+version = "0.2.0"
+description = "Ansys Mechanical sonuç doğrulama aracı: mesh yakınsaması, tekillik tespiti, GCI, denge kontrolü"
+requires-python = ">=3.10"
+dependencies = ["ansys-mechanical-core>=0.11", "pyyaml>=6.0", "mcp>=1.2,<2"]
+
+[project.optional-dependencies]
+cad = ["cadquery>=2.4"]
+dev = ["pytest>=7"]
+
+[project.scripts]
+feacheck = "feacheck.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["feacheck*", "cadfea*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

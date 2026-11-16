@@ -1,0 +1,401 @@
+{
+ "errors": [],
+ "bc_locations": {
+  "Fixed Support": [
+   {
+    "area_mm2": 300.0,
+    "id": 36,
+    "c": [
+     80.0,
+     15.0,
+     5.0
+    ]
+   }
+  ],
+  "Force": [
+   {
+    "area_mm2": 300.0,
+    "id": 40,
+    "c": [
+     5.0,
+     15.0,
+     70.0
+    ]
+   }
+  ]
+ },
+ "t_eff_mm": 7.18,
+ "yield_lib_mpa": 250.0,
+ "probe_xyz_mm": [
+  11.464466094067262,
+  12.857142857142856,
+  11.464466094067262
+ ],
+ "unit_system_restored": "StandardNMM",
+ "duration_s": 123.15044569999999,
+ "original_element_size_mm": 0.0,
+ "model_name": "L_braket_R5-FreeParts|Open CASCADE STEP translator 7.9 2",
+ "analysis_type": "Static",
+ "ok": true,
+ "settings_used": {
+  "sizes_mm": [
+   4.351,
+   2.901,
+   1.934
+  ],
+  "exclusion_mm": 17.4,
+  "max_nodes": 128000,
+  "mode": "global",
+  "t_eff_mm": 7.18,
+  "lc_mm": 34.806
+ },
+ "user_sizings": [],
+ "reaction_supports": [
+  "Fixed Support"
+ ],
+ "applied_force_n": [
+  -1000.0,
+  0.0,
+  0.0
+ ],
+ "bc_types": {
+  "FixedSupport": 1,
+  "Force": 1
+ },
+ "warnings": [],
+ "analysis": "Static Structural",
+ "physics_type": "Mechanical",
+ "tree": [
+  {
+   "state": "FullyDefined",
+   "name": "Analysis Settings",
+   "suppressed": false,
+   "type": "ANSYSAnalysisSettings"
+  },
+  {
+   "faces": [
+    {
+     "area_mm2": 300.0,
+     "id": 40,
+     "c": [
+      5.0,
+      15.0,
+      70.0
+     ]
+    }
+   ],
+   "state": "FullyDefined",
+   "name": "Force",
+   "suppressed": false,
+   "type": "Force"
+  },
+  {
+   "faces": [
+    {
+     "area_mm2": 300.0,
+     "id": 36,
+     "c": [
+      80.0,
+      15.0,
+      5.0
+     ]
+    }
+   ],
+   "state": "FullyDefined",
+   "name": "Fixed Support",
+   "suppressed": false,
+   "type": "FixedSupport"
+  },
+  {
+   "state": "NotSolved",
+   "name": "Solution",
+   "suppressed": false,
+   "type": "Solution"
+  }
+ ],
+ "mode": "global",
+ "yield_mpa": null,
+ "levels": [
+  {
+   "probe": {
+    "radius_mm": 4.351,
+    "value": 162.69043872673797,
+    "nearest_mm": 0.0,
+    "nodes_in_radius": 15
+   },
+   "aspect_max": 3.2912000000000003,
+   "quality_avg": 0.9266303509236951,
+   "element_size_mm": 4.351,
+   "state": "Solved",
+   "reaction_n": [
+    1000.0000164820356,
+    6.394827643418921e-06,
+    -3.460226354690121e-05
+   ],
+   "h_eff_mm": 4.351,
+   "quality_min": 0.494205441971792,
+   "skewness_avg": 0.10395148801122939,
+   "elements": 686,
+   "max_vm": 162.69043872673797,
+   "max_location": {
+    "xyz_mm": [
+     11.464466094067262,
+     12.857142857142856,
+     11.464466094067262
+    ],
+    "node_id": 684,
+    "value": 162.69043872673797,
+    "dist_to_bc_mm": 58.55385034814768
+   },
+   "skewness_max": 0.4823807976525334,
+   "max_def": 0.858364349362683,
+   "max_away_from_peak": {
+    "xyz_mm": [
+     54.0,
+     0.0,
+     10.0
+    ],
+    "node_id": 658,
+    "value": 133.51067606882154,
+    "dist_to_bc_mm": 26.0
+   },
+   "max_faces": [
+    {
+     "radii_mm": [
+      5.0,
+      5.0
+     ],
+     "id": 35,
+     "type": "GeoSurfaceCylinder"
+    }
+   ],
+   "max_outside_zone": {
+    "xyz_mm": [
+     11.464466094067262,
+     12.857142857142856,
+     11.464466094067262
+    ],
+    "node_id": 684,
+    "value": 162.69043872673797,
+    "dist_to_bc_mm": 58.55385034814768
+   },
+   "nodes": 3858
+  },
+  {
+   "probe": {
+    "radius_mm": 2.901,
+    "value": 173.71898588029686,
+    "nearest_mm": 0.7792207792207808,
+    "nodes_in_radius": 20
+   },
+   "aspect_max": 1.5427000000000002,
+   "quality_avg": 0.9783456230592086,
+   "element_size_mm": 2.901,
+   "state": "Solved",
+   "reaction_n": [
+    999.9999319615761,
+    -1.2098956670314465e-05,
+    6.226320522273454e-06
+   ],
+   "h_eff_mm": 2.901,
+   "quality_min": 0.8269408385492909,
+   "skewness_avg": 0.06536632291709271,
+   "elements": 2156,
+   "max_vm": 173.71898588029686,
+   "max_location": {
+    "xyz_mm": [
+     12.5,
+     13.636363636363637,
+     10.669872981077807
+    ],
+    "node_id": 2110,
+    "value": 173.71898588029686,
+    "dist_to_bc_mm": 59.382775045306204
+   },
+   "skewness_max": 0.38112071027540273,
+   "max_def": 0.8588484630969668,
+   "max_away_from_peak": {
+    "xyz_mm": [
+     60.21739130434783,
+     2.7272727272727275,
+     10.0
+    ],
+    "node_id": 1904,
+    "value": 133.6082044431769,
+    "dist_to_bc_mm": 19.782608695652172
+   },
+   "max_faces": [
+    {
+     "radii_mm": [
+      5.0,
+      5.0
+     ],
+     "id": 35,
+     "type": "GeoSurfaceCylinder"
+    }
+   ],
+   "max_outside_zone": {
+    "xyz_mm": [
+     12.5,
+     13.636363636363637,
+     10.669872981077807
+    ],
+    "node_id": 2110,
+    "value": 173.71898588029686,
+    "dist_to_bc_mm": 59.382775045306204
+   },
+   "nodes": 11090
+  },
+  {
+   "probe": {
+    "radius_mm": 1.934,
+    "value": 172.03662120237078,
+    "nearest_mm": 0.2678571428571441,
+    "nodes_in_radius": 21
+   },
+   "aspect_max": 2.9359,
+   "quality_avg": 0.9855139902511393,
+   "element_size_mm": 1.934,
+   "state": "Solved",
+   "reaction_n": [
+    1000.0000053764513,
+    -1.1265671211901918e-05,
+    -1.718594394084505e-05
+   ],
+   "h_eff_mm": 1.934,
+   "quality_min": 0.8372893477891152,
+   "skewness_avg": 0.06139096727104045,
+   "elements": 6144,
+   "max_vm": 183.0755543781213,
+   "max_location": {
+    "xyz_mm": [
+     13.454915028125264,
+     15.0,
+     10.244717418524232
+    ],
+    "node_id": 5903,
+    "value": 183.07555437812127,
+    "dist_to_bc_mm": 59.85507692956035
+   },
+   "skewness_max": 0.4757816638776886,
+   "max_def": 0.8590954696052134,
+   "max_away_from_peak": {
+    "xyz_mm": [
+     58.970588235294116,
+     28.125,
+     10.0
+    ],
+    "node_id": 5462,
+    "value": 133.67100003174158,
+    "dist_to_bc_mm": 21.029411764705884
+   },
+   "max_faces": [
+    {
+     "radii_mm": [
+      5.0,
+      5.0
+     ],
+     "id": 35,
+     "type": "GeoSurfaceCylinder"
+    }
+   ],
+   "max_outside_zone": {
+    "xyz_mm": [
+     13.454915028125264,
+     15.0,
+     10.244717418524232
+    ],
+    "node_id": 5903,
+    "value": 183.07555437812127,
+    "dist_to_bc_mm": 59.85507692956035
+   },
+   "nodes": 29661
+  }
+ ],
+ "volume_mm3": 42167.657178588386,
+ "materials": [
+  "Structural Steel"
+ ],
+ "_synthetic": "SENTETIK: radius_series degerleri elle uretildi; gercek Ansys kosusu degil. Yalnizca karar mantigini test eder.",
+ "radius_trigger": {
+  "face_ids": [
+   35
+  ],
+  "radius_mm": 5.0,
+  "elements_on_arc": 4.1
+ },
+ "radius_series": {
+  "face_ids": [
+   35
+  ],
+  "radius_mm": 5.0,
+  "global_size_mm": 1.934,
+  "sizes_mm": [
+   1.25,
+   0.8333,
+   0.5556
+  ],
+  "levels": [
+   {
+    "element_size_mm": 1.25,
+    "h_eff_mm": 1.25,
+    "nodes": 40000,
+    "elements": 25000,
+    "elements_on_arc": 6.3,
+    "state": "Solved",
+    "max_vm": 189.0,
+    "max_def": 0.2,
+    "max_location": {
+     "value": 189.0,
+     "xyz_mm": [
+      13.454915028125264,
+      15.0,
+      10.244717418524232
+     ],
+     "node_id": 1
+    },
+    "on_target": true
+   },
+   {
+    "element_size_mm": 0.8333,
+    "h_eff_mm": 0.8333,
+    "nodes": 49000,
+    "elements": 25000,
+    "elements_on_arc": 9.4,
+    "state": "Solved",
+    "max_vm": 191.6,
+    "max_def": 0.2,
+    "max_location": {
+     "value": 191.6,
+     "xyz_mm": [
+      13.454915028125264,
+      15.0,
+      10.244717418524232
+     ],
+     "node_id": 1
+    },
+    "on_target": true
+   },
+   {
+    "element_size_mm": 0.5556,
+    "h_eff_mm": 0.5556,
+    "nodes": 58000,
+    "elements": 25000,
+    "elements_on_arc": 14.1,
+    "state": "Solved",
+    "max_vm": 192.4,
+    "max_def": 0.2,
+    "max_location": {
+     "value": 192.4,
+     "xyz_mm": [
+      13.454915028125264,
+      15.0,
+      10.244717418524232
+     ],
+     "node_id": 1
+    },
+    "on_target": true
+   }
+  ]
+ }
+}

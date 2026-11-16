@@ -1,0 +1,14 @@
+# Örnek parça ayarı: inbox/aks.step yanına aks.yaml olarak koy.
+# Aks: bir ucu sabit, diğer ucuna aşağı yönlü kuvvet. Ekseni z boyunca varsayıldı.
+material:
+  name: "Structural Steel"
+  yield_strength_mpa: 250
+mesh:
+  convergence_sizes_mm: [4, 2, 1]
+loads:
+  fixed:
+    - {axis: z, side: min}
+  forces:
+    - scope: {axis: z, side: max}
+      components_n: [0, -2000, 0]
+  pressures: []

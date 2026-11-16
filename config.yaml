@@ -1,0 +1,42 @@
+# CAD-FEA Bridge varsayılan ayarları
+# Bir parçaya özel ayar için geometri dosyasının yanına aynı isimli .yaml koy
+# (örn. inbox/aks.step + inbox/aks.yaml). O dosya buradaki değerleri ezer.
+
+ansys:
+  version: 241          # 2024 R2 = 242, 2025 R1 = 251 ...
+  mode: remote          # remote = PyMechanical ile otomatik çöz | script_only = sadece script üret
+  show_gui: false       # true yaparsan Mechanical penceresi açılır, adım adım izlersin
+
+paths:
+  inbox: ./inbox        # NX/SolidWorks export'larını buraya at
+  runs: ./runs          # her analiz için ayrı klasör (rapor, görseller, .mechdb)
+
+geometry:
+  formats: [.step, .stp, .x_t, .x_b, .igs, .iges]
+  named_selection_prefix: "NS_"   # CAD'den gelen named selection'lar bu önekle alınır
+
+material:
+  name: "Structural Steel"        # Mechanical'daki malzeme adı
+  xml: null                       # özel malzeme için Engineering Data .xml yolu
+  yield_strength_mpa: 250         # güvenlik katsayısı hesabı için
+
+mesh:
+  element_size_mm: 2.0
+  convergence_sizes_mm: []        # örn [4, 2, 1] -> sırayla çözer, yakınsamayı raporlar
+
+# Kapsam (scope) iki şekilde verilir:
+#   {named_selection: "NS_FIX"}         -> CAD'den/Mechanical'dan gelen isimli seçim
+#   {axis: x, side: min, tol: 0.01}     -> x ekseninde en uçtaki düzlemsel yüzler (tol = boyutun %1'i)
+loads:
+  fixed:
+    - {axis: x, side: min}
+  forces:
+    - scope: {axis: x, side: max}
+      components_n: [0, -1000, 0]
+  pressures: []
+  # - scope: {named_selection: "NS_PRESS"}
+  #   mpa: 1.5
+
+results:
+  export_images: true
+  sf_warning: 1.5                 # güvenlik katsayısı bunun altındaysa uyarı ver

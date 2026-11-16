@@ -1,0 +1,10 @@
+__pycache__/
+.pytest_cache/
+.venv/
+runs/
+inbox/*
+!inbox/.gitkeep
+*.tgz
+*.bundle
+*.egg-info/
+.feacheck/
