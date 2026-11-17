@@ -29,7 +29,7 @@ teker çapı, motor torku, bağlantı şekli).
 ## 15.11 akşam (kullanıcı yokken)
 - [x] GCI, Celik vd. 2008 Tablo 1 çözülmüş örneğiyle birebir doğrulandı; e_ext eklendi.
 - [x] El hesabı modülü handcalc.py + elhesap.yaml + rapor karşılaştırması (cetvelde aralık bandı, kontrol satırı, bölüm).
-- [ ] Rover pilotunda handcalc ile yük/el hesabı birlikte. (Yük fonksiyonu + rover_girdi.yaml hazır; kullanıcı formu dolduracak)
+- [ ] Rover pilotunda handcalc ile yük/el hesabı birlikte. (arac.yaml + otomatik araç yükü kıyası hazır; kullanıcı arac.yaml'ı dolduracak. Gerilme el hesabı parçaya özgü, elhesap.yaml)
 
 ## 17.11 gece
 - [x] 16.11 R5 tekrarı: 15.11 koşusuyla birebir aynı → tekrarlanabilirlik testi.

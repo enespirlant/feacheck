@@ -287,6 +287,13 @@ def write(result: dict, out_html: Path) -> Path:
     if hc:
         checks.append(("ok" if hc["ok"] else "bad", "El hesabı", html.escape(hc["text"]) + ".",
                        "FEA, bağımsız bir kapalı form çözümle tutarlı mı? (elhesap.yaml)"))
+    vl = result.get("vehicle_load")
+    if vl:
+        checks.append(("bad" if not vl["ok"] else "warn" if vl["durum"] != "uygun" else "ok", "Araç yükü",
+                       html.escape(vl["text"]) + ".",
+                       "Modeldeki kuvvet, arac.yaml'dan hesaplanan teker yüküyle tutarlı mı? "
+                       + vl["formula"] + f" (k_dyn {tr(vl['varsayimlar']['k_dyn'])}, "
+                       f"μ {tr(vl['varsayimlar']['mu'])}, μy {tr(vl['varsayimlar']['mu_lat'])} varsayım)."))
     icon = {"ok": "✓", "warn": "!", "bad": "✕"}
     checks_html = "".join(f'<li class="c {s_}"><span class="ic" aria-hidden="true">{icon[s_]}</span>'
                           f'<span class="cn">{html.escape(n)}</span><span class="cv">{v}'

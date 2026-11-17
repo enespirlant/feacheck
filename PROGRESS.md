@@ -164,3 +164,12 @@ Kaba mesh'te radyusun çokgen gibi temsil edilmesi tepeyi biraz şişiriyor olab
   orijinalle birebir (V 42000 / 42160,95 mm³, radyus yüzü 235,62 mm²). `parts/L_braket_R1.step`, `R2.step` yazıldı.
 - Rover pilotu: `rover_wheel_loads` + `rover_girdi.yaml` (veri klasörüne de kopyalandı). k_dyn 2,5, μ 0,8, μy 0,5 varsayım.
 - 89 test geçiyor (PC'de cadquery var, atlanan yok).
+
+## 2026-11-17 — araç yükü kıyası (kullanıcı: "her seferinde form doldurmayayım")
+- Karar: ayrı arayüzlü program yok; araç bilgisi bir kez `arac.yaml`'a, parça bilgisi modelden. Buton yalnız kuvvetin
+  türünü sorar ve hatırlar. `feacheck/vehicle.py`, `finalize --yuk-tipi`, rapor satırı.
+- Dünkü `rover_girdi.yaml` formu kaldırıldı (`?` YAML'da geçersizdi); yerine `examples/arac.yaml`. Veri klasörüne
+  `arac.yaml` yazıldı. Veri klasöründeki eski `rover_girdi.yaml` silinmedi (silme izni yok), kullanılmıyor.
+- Buton penceresi ANSYS'TE DENENMEDİ (ASCII + sözdizimi testli).
+- 94 test geçiyor.
+

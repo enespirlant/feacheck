@@ -45,6 +45,8 @@ def main(argv=None):
     fz.add_argument("--tol", type=float, default=None)
     fz.add_argument("--materials-xml", default=None)
     fz.add_argument("--yield-source", default=None)
+    fz.add_argument("--yuk-tipi", choices=["duzey", "cekis", "yanal", "yok"], default=None,
+                    help="modeldeki kuvvet araçta neyi temsil ediyor (arac.yaml ile kıyas)")
     fz.add_argument("--no-open", action="store_true")
 
     c = sub.add_parser("converge", help="mesh yakınsaması ve doğrulama")
@@ -109,7 +111,7 @@ Raporlar ve geçmiş: {r['home']}   (feacheck log ile listele)
         from .app import finalize_file
         rid, html, res = finalize_file(Path(a.raw), yield_mpa=a.yield_mpa, tol=a.tol, open_browser=not a.no_open,
                                        materials_xml=Path(a.materials_xml) if a.materials_xml else None,
-                                       yield_source=a.yield_source)
+                                       yield_source=a.yield_source, yuk_tipi=a.yuk_tipi)
         _print_summary(rid, res, html)
         return
     store = Store.find_or_default()

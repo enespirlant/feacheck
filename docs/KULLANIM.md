@@ -78,6 +78,17 @@ sigma = kt * h.bending_round(M_Nmm=40_000, d=20)["value"]
 
 Eğri uydurmaları geçerlilik aralığı dışında hata verir; kaynakları sonucun `source` alanında yazar.
 
+## 4b. Araç yükü kıyası (rover/İKA)
+
+Veri klasöründeki `arac.yaml`'a aracı **bir kez** yaz: kütle, teker sayısı, teker çapı, motor torku (dişli oranı,
+verim ve varsayımlar önerilen değerlerle gelir). Parça bilgisi (malzeme, mesnet, kuvvet) Ansys modelinden okunur;
+parça başına form yok.
+
+`arac.yaml` doluysa buton bitişte tek soru sorar: modeldeki kuvvet teker başına **düşey / çekiş / yanal** yükten hangisi
+(0 = araç yükü değil). Seçim model adına göre `yuk_tipleri.txt`'de hatırlanır; sonraki koşularda OK'a basman yeterli.
+Raporda "Araç yükü" satırı çıkar: modeldeki kuvvet beklenenin %95'inden azsa kırmızı bulgu, 2 katından fazlaysa
+"çok ihtiyatlı" uyarısı. Hesap: Fz = k_dyn·mg/n, Fx = min(T·i·η/r, μ·Fz), Fy = μy·mg/n (k_dyn, μ, μy varsayım).
+
 ## 5. Öz test
 
 Bir modeli aç, analizine tıkla, `feacheck_oztest.py`'yi çalıştır. Araç modeli sırayla bilerek bozar (lineer eleman,

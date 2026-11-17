@@ -1,0 +1,13 @@
+# feacheck arac bilgisi - arac basina BIR KEZ doldur. Parca bilgisi Ansys modelinden okunur.
+# Bos birakilan arac icin yuk kiyasi yapilmaz (rapor yine uretilir).
+kutle:              # kg, tum arac, yuk dahil
+teker_sayisi:       # adet
+teker_capi:         # mm
+motor_torku:        # N*m, motor cikisi (tepe)
+disli_orani: 1      # motor -> teker, reduktor yoksa 1
+verim: 0.9          # disli verimi
+
+# Varsayimlar (emin degilsen dokunma)
+k_dyn: 2.5          # engel/cukur darbe katsayisi (2-3 tipik)
+mu: 0.8             # cekis surtunmesi
+mu_lat: 0.5         # yanal kayma surtunmesi

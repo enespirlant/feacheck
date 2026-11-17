@@ -5,7 +5,8 @@
 ### Eklendi
 - `examples/make_lbraket.py`: L-braket STEP üretici (R0/R5 mevcut dosyalarla birebir aynı hacim ve yüzler; R1, R2 üretildi).
 - `handcalc.rover_wheel_loads`: teker başına düşey/tasarım/çekiş/yanal yük ve aks momenti; çekişi motor ya da zemin sınırlar.
-- `examples/rover_girdi.yaml`: rover pilotu için doldurulacak girdi formu.
+- **Araç yükü kıyası:** `arac.yaml` (araç başına bir kez) + butonda tek soru (kuvvet düşey/çekiş/yanal, model adına göre
+  hatırlanır) + raporda "Araç yükü" satırı. Parça başına form yok; malzeme/mesnet/kuvvet modelden okunur.
 
 ## 0.2.0 (2026-11-17)
 

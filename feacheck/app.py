@@ -120,7 +120,7 @@ def attach_handcalc(res: dict, hc: dict | None) -> None:
 
 def finalize(raw: dict, *, model_name: str | None = None, yield_mpa: float | None = None, tol: float | None = None,
              store: Store | None = None, open_browser: bool = True, materials_xml: Path | None = None,
-             yield_source: str | None = None):
+             yield_source: str | None = None, yuk_tipi: str | None = None):
     ysrc_override = yield_source
     if tol is None:
         tol = load_settings(store.root if store else None)["gci_tol_pct"]
@@ -155,6 +155,8 @@ def finalize(raw: dict, *, model_name: str | None = None, yield_mpa: float | Non
         res["materials"] = raw["materials"]
     store = store or Store.default()
     attach_handcalc(res, load_handcalc(res["model"], store.root))
+    from .vehicle import attach_vehicle
+    attach_vehicle(res, raw, store.root, yuk_tipi)
     rid, folder = store.save(res)
     html = write(res, folder / "report.html")
     if open_browser:
@@ -221,7 +223,47 @@ if not _YIELD and not _MATXML and R["ok"]:
         _YIELD = Interaction.InputBox(
             "Malzemede akma dayanimi bulunamadi (%s).\nAkma dayanimi (MPa)? Bos birakirsan guvenlik katsayisi hesaplanmaz."
             % ", ".join(R.get("materials", [])), "feacheck", "")
+from System.IO import Path as _IOPath
+
+
+def _arac_dolu(p):
+    if not File.Exists(p):
+        return False
+    for _ln in File.ReadAllLines(p):
+        _s = _ln.split("#")[0].strip()
+        if _s.startswith("kutle:"):
+            try:
+                return float(_s[6:].strip()) > 0
+            except Exception:
+                return False
+    return False
+
+
+_HOME = _IOPath.GetDirectoryName(OUTDIR)
+_TIP = ""
+if R["ok"] and _arac_dolu(_HOME + "\\arac.yaml"):
+    _mem = _HOME + "\\yuk_tipleri.txt"
+    _key = (R.get("model_name", "") or "model").split("|")[0].strip()
+    _old = {}
+    if File.Exists(_mem):
+        for _ln in File.ReadAllLines(_mem):
+            if "|" in _ln:
+                _k, _v = _ln.rsplit("|", 1)
+                _old[_k] = _v.strip()
+    _codes = {"1": "duzey", "2": "cekis", "3": "yanal", "0": "yok"}
+    _rev = dict((_v, _k) for _k, _v in _codes.items())
+    _ans = Interaction.InputBox(
+        "Modeldeki kuvvet aracta neyi temsil ediyor? (teker basina)\n\n"
+        "1 = teker dusey yuku\n2 = cekis kuvveti\n3 = yanal kuvvet\n0 = arac yuku degil\n\n"
+        "Secim bu model icin hatirlanir; ayni kalacaksa OK'a bas.",
+        "feacheck", _rev.get(_old.get(_key, ""), "1"))
+    _TIP = _codes.get(_ans.strip(), "")
+    if _TIP:
+        _old[_key] = _TIP
+        File.WriteAllLines(_mem, ["%s|%s" % (_k, _v) for _k, _v in _old.items()])
 _args = '-m feacheck finalize "%s"' % _raw
+if _TIP:
+    _args += " --yuk-tipi %s" % _TIP
 if _MATXML:
     _args += ' --materials-xml "%s"' % _MATXML
 if _YIELD.strip():
