@@ -135,3 +135,7 @@ PyMechanical (gRPC) ◄── feacheck converge  │  └ store.py    (geçmiş)
 
 `cadfea/` paketi: STEP'ten otomatik sınır şartı kurulumu, teknik resim taslağı, ISO 286 geçme, tolerans zinciri,
 GD&T ve el hesapları (ikincil araçlar).
+
+## Lisans
+
+MIT, bkz. [LICENSE](LICENSE). Mühendislik kararı için tek başına yeterli değildir; sonuçları kendi el hesabınla doğrula.

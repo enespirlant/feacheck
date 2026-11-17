@@ -142,3 +142,7 @@ in front of feacheck · physical validation with strain gauges.
 - Williams, M. L. (1952). Stress singularities resulting from various boundary conditions in angular corners of plates in extension.
 - Pilkey, W. D., Pilkey, D. F. *Peterson's Stress Concentration Factors*.
 - ASME V&V 10-2019, *Standard for Verification and Validation in Computational Solid Mechanics*.
+
+## License
+
+MIT, see [LICENSE](LICENSE). Not a substitute for engineering judgement; verify results with your own hand calculations.
