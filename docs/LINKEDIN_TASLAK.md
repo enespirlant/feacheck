@@ -13,6 +13,6 @@ Gerçek bir L-braket üzerinde: keskin köşe hariç 133,7 MPa, el hesabı 133,3
 
 Önemli bir ders: yakınsama düşük mertebedeyse (p < 1) araç emniyet katsayısını kendisi büyütüyor ve "geniş belirsizlik" diyor. Güvenilir olmayan sonucu güvenilir göstermemek en önemli kısmıydı.
 
-İKA ve rover parçalarımda kullanmak için yaptım; MIT lisansıyla açık: [GitHub bağlantısı]
+İKA ve rover parçalarımda kullanmak için yaptım; MIT lisansıyla açık: https://github.com/enespirlant/feacheck
 
 #FEA #Ansys #MechanicalEngineering #Python
