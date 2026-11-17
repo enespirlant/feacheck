@@ -110,26 +110,36 @@ G = 9.81
 
 def rover_wheel_loads(m_kg: float, n_wheels: int, D_wheel_mm: float, T_motor_Nm: float,
                       gear_ratio: float = 1.0, eta: float = 1.0, k_dyn: float = 2.5,
-                      mu: float = 0.8, mu_lat: float = 0.5) -> dict:
-    """Tek tekerin tasarım yükleri (N). Eşit yük paylaşımı varsayılır.
+                      mu: float = 0.8, mu_lat: float = 0.5, k_teker: float = 1.0,
+                      Fx_design: float | None = None) -> dict:
+    """En yüklü tekerin tasarım yükleri (N).
 
-    k_dyn, mu, mu_lat VARSAYIMDIR (engel/çukur darbesi, toprak-teker sürtünmesi); rover_girdi.yaml'da
-    kullanıcı onaylar. Çekiş kuvveti motorun verebileceği ile zeminin taşıyabileceğinin küçüğüdür.
+    k_teker = en yüklü teker yükü / ortalama teker yükü (rampa, fren, engel; düz zeminde 1). Zeminin taşıyabileceği
+    çekiş μ × o anki teker yüküdür, ortalama yük değil. eta yalnız dişli kaybıdır: tork motor milinde ölçülmüşse ve
+    dişli yoksa 1 olmalı (elektrik kaybı torku tekrar azaltmaz). Fx_design verilirse (aracın kendi hesabından, ör.
+    engel aşma) çekiş doğrudan o alınır. k_dyn, mu, mu_lat, k_teker VARSAYIMDIR.
+    T_teker = Fx·r tekere gelen torktur (eğilme momenti değil).
     """
-    if min(m_kg, n_wheels, D_wheel_mm, gear_ratio, eta, k_dyn) <= 0 or T_motor_Nm < 0:
-        raise ValueError("kütle, teker sayısı, çap, oran, verim ve k_dyn pozitif olmalı")
+    if min(m_kg, n_wheels, D_wheel_mm, gear_ratio, eta, k_dyn, k_teker) <= 0 or T_motor_Nm < 0:
+        raise ValueError("kütle, teker sayısı, çap, oran, verim, k_dyn ve k_teker pozitif olmalı")
+    if Fx_design is not None and Fx_design <= 0:
+        raise ValueError("cekis_tasarim pozitif olmalı")
     r = D_wheel_mm / 2
     Fz = m_kg * G / n_wheels
+    Fz_max = k_teker * Fz
     Fx_motor = T_motor_Nm * 1000 * gear_ratio * eta / r
-    Fx_zemin = mu * Fz
-    Fx = min(Fx_motor, Fx_zemin)
+    Fx_zemin = mu * Fz_max
+    if Fx_design is not None:
+        Fx, siniri = Fx_design, "arac.yaml (dogrudan deger)"
+    else:
+        Fx, siniri = min(Fx_motor, Fx_zemin), ("motor" if Fx_motor <= Fx_zemin else "zemin")
     return _res(
-        {"Fz_statik": Fz, "Fz_tasarim": k_dyn * Fz, "Fx_cekis": Fx, "Fy_yanal": mu_lat * Fz,
-         "M_aks_Nmm": Fx * r},
-        "Fz = mg/n; Fz,t = k·Fz; Fx = min(T·i·η/r, μ·Fz); Fy = μy·Fz; M = Fx·r",
-        "statik denge + Coulomb sürtünmesi; k_dyn, μ, μy varsayım",
-        cekis_siniri="motor" if Fx_motor <= Fx_zemin else "zemin",
-        varsayimlar={"k_dyn": k_dyn, "mu": mu, "mu_lat": mu_lat})
+        {"Fz_statik": Fz, "Fz_en_yuklu": Fz_max, "Fz_tasarim": k_dyn * Fz_max, "Fx_cekis": Fx,
+         "Fx_motor": Fx_motor, "Fx_zemin": Fx_zemin, "Fy_yanal": mu_lat * Fz_max, "T_teker_Nmm": Fx * r},
+        "Fz = k_teker·mg/n; Fz,t = k_dyn·Fz; Fx = min(T·i·η/r, μ·Fz) ya da doğrudan değer; Fy = μy·Fz; T_teker = Fx·r",
+        "statik denge + Coulomb sürtünmesi; k_dyn, μ, μy, k_teker varsayım",
+        cekis_siniri=siniri,
+        varsayimlar={"k_dyn": k_dyn, "mu": mu, "mu_lat": mu_lat, "k_teker": k_teker})
 
 
 # ------------------------------------------------------------------ karşılaştırma

@@ -82,7 +82,13 @@ def test_rover_teker_yukleri_elle():
     assert v["Fz_tasarim"] == pytest.approx(306.5625)
     assert v["Fx_cekis"] == pytest.approx(98.1) and r["cekis_siniri"] == "zemin"
     assert v["Fy_yanal"] == pytest.approx(61.3125)
-    assert v["M_aks_Nmm"] == pytest.approx(9810)
+    assert v["T_teker_Nmm"] == pytest.approx(9810)
+    # en yüklü teker 1,5× → zemin sınırı da 1,5×; doğrudan çekiş değeri her şeyi geçersiz kılar
+    k = h.rover_wheel_loads(50, 4, 200, 2, gear_ratio=10, eta=0.9, k_teker=1.5)["value"]
+    assert k["Fz_tasarim"] == pytest.approx(1.5 * 306.5625) and k["Fx_cekis"] == pytest.approx(1.5 * 98.1)
+    d = h.rover_wheel_loads(45, 6, 216, 16, k_teker=1.0, Fx_design=148)
+    assert d["value"]["Fx_cekis"] == 148 and d["cekis_siniri"].startswith("arac.yaml")
+    assert d["value"]["Fx_motor"] == pytest.approx(16000 / 108)  # η = 1: 148,1 N
     assert h.rover_wheel_loads(50, 4, 200, 0.5)["cekis_siniri"] == "motor"  # 0,5 N·m → 10 N < 98 N
     with pytest.raises(ValueError):
         h.rover_wheel_loads(0, 4, 200, 2)

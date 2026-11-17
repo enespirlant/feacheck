@@ -293,7 +293,8 @@ def write(result: dict, out_html: Path) -> Path:
                        html.escape(vl["text"]) + ".",
                        "Modeldeki kuvvet, arac.yaml'dan hesaplanan teker yüküyle tutarlı mı? "
                        + vl["formula"] + f" (k_dyn {tr(vl['varsayimlar']['k_dyn'])}, "
-                       f"μ {tr(vl['varsayimlar']['mu'])}, μy {tr(vl['varsayimlar']['mu_lat'])} varsayım)."))
+                       f"μ {tr(vl['varsayimlar']['mu'])}, μy {tr(vl['varsayimlar']['mu_lat'])}, "
+                       f"k_teker {tr(vl['varsayimlar'].get('k_teker', 1))} varsayım; çekiş sınırı: {vl['cekis_siniri']})."))
     icon = {"ok": "✓", "warn": "!", "bad": "✕"}
     checks_html = "".join(f'<li class="c {s_}"><span class="ic" aria-hidden="true">{icon[s_]}</span>'
                           f'<span class="cn">{html.escape(n)}</span><span class="cv">{v}'

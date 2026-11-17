@@ -5,9 +5,11 @@ teker_sayisi:       # adet
 teker_capi:         # mm
 motor_torku:        # N*m, motor cikisi (tepe)
 disli_orani: 1      # motor -> teker, reduktor yoksa 1
-verim: 0.9          # disli verimi
+verim: 1            # YALNIZ disli kaybi. Tork motor milinde olculuyorsa ve disli yoksa 1 birak.
 
 # Varsayimlar (emin degilsen dokunma)
 k_dyn: 2.5          # engel/cukur darbe katsayisi (2-3 tipik)
 mu: 0.8             # cekis surtunmesi
 mu_lat: 0.5         # yanal kayma surtunmesi
+k_teker: 1          # en yuklu teker / ortalama teker yuku (rampa, fren, engel; duz zeminde 1)
+# cekis_tasarim:    # N, istege bagli: aracin kendi hesabindan teker basi cekis (yazilirsa dogrudan kullanilir)

@@ -17,16 +17,18 @@ teker_sayisi:       # adet
 teker_capi:         # mm
 motor_torku:        # N*m, motor cikisi (tepe)
 disli_orani: 1      # motor -> teker, reduktor yoksa 1
-verim: 0.9          # disli verimi
+verim: 1            # YALNIZ disli kaybi. Tork motor milinde olculuyorsa ve disli yoksa 1 birak.
 
 # Varsayimlar (emin degilsen dokunma)
 k_dyn: 2.5          # engel/cukur darbe katsayisi (2-3 tipik)
 mu: 0.8             # cekis surtunmesi
 mu_lat: 0.5         # yanal kayma surtunmesi
+k_teker: 1          # en yuklu teker / ortalama teker yuku (rampa, fren, engel; duz zeminde 1)
+# cekis_tasarim:    # N, istege bagli: aracin kendi hesabindan teker basi cekis (yazilirsa dogrudan kullanilir)
 """
 
 ZORUNLU = ("kutle", "teker_sayisi", "teker_capi", "motor_torku")
-YUK_TIPLERI = {"duzey": ("Fz_tasarim", "düşey tasarım yükü (k_dyn·mg/n)"),
+YUK_TIPLERI = {"duzey": ("Fz_tasarim", "düşey tasarım yükü (k_dyn·k_teker·mg/n)"),
                "cekis": ("Fx_cekis", "çekiş kuvveti"),
                "yanal": ("Fy_yanal", "yanal kuvvet")}
 
@@ -46,7 +48,8 @@ def load_vehicle(home: Path) -> dict | None:
         d = yaml.safe_load(f.read_text(encoding="utf-8")) or {}
         return {k: float(d[k]) for k in ZORUNLU} | {
             k: float(d.get(k, v)) for k, v in
-            (("disli_orani", 1.0), ("verim", 1.0), ("k_dyn", 2.5), ("mu", 0.8), ("mu_lat", 0.5))}
+            (("disli_orani", 1.0), ("verim", 1.0), ("k_dyn", 2.5), ("mu", 0.8), ("mu_lat", 0.5),
+             ("k_teker", 1.0))} | {"cekis_tasarim": float(d["cekis_tasarim"]) if d.get("cekis_tasarim") else None}
     except (KeyError, TypeError, ValueError, yaml.YAMLError):
         return None
 
@@ -54,7 +57,8 @@ def load_vehicle(home: Path) -> dict | None:
 def wheel_loads(v: dict) -> dict:
     return rover_wheel_loads(v["kutle"], int(v["teker_sayisi"]), v["teker_capi"], v["motor_torku"],
                              gear_ratio=v["disli_orani"], eta=v["verim"], k_dyn=v["k_dyn"],
-                             mu=v["mu"], mu_lat=v["mu_lat"])
+                             mu=v["mu"], mu_lat=v["mu_lat"], k_teker=v.get("k_teker", 1.0),
+                             Fx_design=v.get("cekis_tasarim"))
 
 
 def model_force(raw: dict) -> float | None:
@@ -83,7 +87,7 @@ def check_load(raw: dict, v: dict, tip: str) -> dict | None:
     else:
         durum, ok = "uygun", True
     n = lambda x: f"{x:.0f}"  # noqa: E731
-    text = (f"Modeldeki kuvvet {n(F)} N, araçtan teker başına {label} {n(beklenen)} N "
+    text = (f"Modeldeki kuvvet {n(F)} N, araçtan en yüklü teker için {label} {n(beklenen)} N "
             f"(oran {oran:.2f}".replace(".", ",") + f"): {durum}")
     return {"tip": tip, "model_n": F, "beklenen_n": beklenen, "oran": round(oran, 3), "durum": durum, "ok": ok,
             "text": text, "formula": wl["formula"], "varsayimlar": wl["varsayimlar"],

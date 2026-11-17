@@ -87,7 +87,10 @@ parça başına form yok.
 `arac.yaml` doluysa buton bitişte tek soru sorar: modeldeki kuvvet teker başına **düşey / çekiş / yanal** yükten hangisi
 (0 = araç yükü değil). Seçim model adına göre `yuk_tipleri.txt`'de hatırlanır; sonraki koşularda OK'a basman yeterli.
 Raporda "Araç yükü" satırı çıkar: modeldeki kuvvet beklenenin %95'inden azsa kırmızı bulgu, 2 katından fazlaysa
-"çok ihtiyatlı" uyarısı. Hesap: Fz = k_dyn·mg/n, Fx = min(T·i·η/r, μ·Fz), Fy = μy·mg/n (k_dyn, μ, μy varsayım).
+"çok ihtiyatlı" uyarısı. Hesap en yüklü teker için: Fz = k_dyn·k_teker·mg/n, Fx = min(T·i·η/r, μ·k_teker·mg/n), Fy = μy·k_teker·mg/n.
+`k_teker` = en yüklü teker / ortalama (rampa, fren, engel). Aracın kendi hesabında teker başı çekiş varsa
+`cekis_tasarim` (N) yaz, doğrudan kullanılır. `verim` yalnız dişli kaybıdır: tork motor milinde ölçülmüşse ve dişli
+yoksa 1. T_teker = Fx·r tekere gelen torktur, eğilme momenti değil.
 
 ## 5. Öz test
 

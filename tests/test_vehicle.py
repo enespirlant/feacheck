@@ -55,3 +55,11 @@ def test_buton_ascii_ve_soru_var(tmp_path):
     src = p.read_bytes().decode("ascii")  # Mechanical ASCII ister
     assert "--yuk-tipi" in src and '"\\\\arac.yaml"' in src
     ast.parse(src)  # sözdizimi (IronPython 2.7 ile ortak altküme)
+
+
+def test_cekis_tasarim_ve_k_teker_yamldan(tmp_path):
+    (tmp_path / "arac.yaml").write_text(DOLU + "k_teker: 1.2\ncekis_tasarim: 148\n", encoding="utf-8")
+    v = V.load_vehicle(tmp_path)
+    assert v["k_teker"] == 1.2 and v["cekis_tasarim"] == 148
+    c = V.check_load({"applied_force_n": [150, 0, 0]}, v, "cekis")
+    assert c["beklenen_n"] == 148 and c["durum"] == "uygun"

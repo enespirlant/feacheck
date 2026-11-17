@@ -183,3 +183,10 @@ Kaba mesh'te radyusun çokgen gibi temsil edilmesi tepeyi biraz şişiriyor olab
 - R2 ve araç yükü penceresi henüz koşulmadı (arac.yaml boş).
 - 95 test geçiyor.
 
+## 2026-11-17 — araç yükü düzeltmesi (kullanıcının araç programıyla karşılaştırma)
+- Çekiş ortalama teker yüküyle hesaplanıyordu (59 N); en zor durumda en yüklü teker daha fazla taşır. `k_teker`
+  (en yüklü / ortalama) ve doğrudan `cekis_tasarim` eklendi. Gerçek araç: 45 kg, 6 teker, Ø216, M365 göbek motoru
+  16 N·m → çekiş 148 N (temkinli; engel 86 N), k_teker 1,17 (rampada fren).
+- Verim torku tekrar çarpıyordu; artık yalnız dişli kaybı (milde ölçülen torkta 1). "Aks momenti" adı yanlıştı:
+  Fx·r teker torkudur → `T_teker_Nmm`.
+- L-braket 1000 N: düşey tasarım 215 N'a göre 4,65× → "çok ihtiyatlı" (değişmedi). 97 test geçiyor.
