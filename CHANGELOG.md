@@ -3,6 +3,14 @@
 ## Yayınlanmamış
 
 ### Eklendi
+- **Öz test Ansys'te doğrulandı (17.11, L-braket R5):** 6 vaka; ham sonuçlar `tests/fixtures/katalog_gercek_20261117/`.
+- **"Mesnet neredeyse yüksüz" kontrolü:** bir mesnet toplam tepkinin %5'inden azını taşıyorsa uyarır. Gerçek öz testte
+  ikinci Fixed yükü kısa devre etti (tepkiler aynı yönde, iç kuvvet oranı 1) ve eski kontrol kaçırdı; gerilme 183 → 65 MPa.
+
+### Düzeltildi
+- Öz test: bir vakanın kurulum hatası tüm döngüyü durduruyordu; yük ×5 Ansys'te çalışmıyordu (SetDiscreteValue).
+- Araç yükü: çekiş en yüklü tekere göre (`k_teker`, `cekis_tasarim`); verim yalnız dişli kaybı; "aks momenti" → teker torku.
+- Aşırı kısıtlama metninde noktalı ondalık.
 - `examples/make_lbraket.py`: L-braket STEP üretici (R0/R5 mevcut dosyalarla birebir aynı hacim ve yüzler; R1, R2 üretildi).
 - `handcalc.rover_wheel_loads`: teker başına düşey/tasarım/çekiş/yanal yük ve aks momenti; çekişi motor ya da zemin sınırlar.
 - **Araç yükü kıyası:** `arac.yaml` (araç başına bir kez) + butonda tek soru (kuvvet düşey/çekiş/yanal, model adına göre

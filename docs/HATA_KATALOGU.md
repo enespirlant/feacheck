@@ -37,7 +37,7 @@ radyus serisi ve ek seviye kapalıdır (yalnız tespit sınanır), bu yüzden to
 | 4 | Mesnet kenarındaki sahte tepe | Aks, olduğu gibi | Tekillik ayrıldı (sınır şartı); tasarım ≈ 113 MPa, ham tepe ≈ 138 dışlanır | gerçek (`aks.json`) |
 | 5 | Keskin iç köşe | L-braket R0 | Keskin köşe: köşe hariç 133,7 MPa; köşe değeri verilmez | gerçek (`lbraket_keskin_yuzbilgili.json`) |
 | 6 | Çözülmemiş radyus | L-braket R5, `ayarlar.yaml`'da `radyus_siklastirma: false` | Çözünürlük yetersiz; tasarım değeri verilmez | gerçek (`lbraket_r5.json`) |
-| 7 | Aşırı kısıtlama | L-braket: alt yüzde Fixed dururken üst yüze ikinci bir Fixed | Mesnetler birbirine karşı çalışıyor, iç kuvvet oranı > 3 | sentetik (eski `lbraket_ust_sabit.json` mesnet başına tepki içermiyor; yeniden koşulmalı) |
+| 7 | Aşırı kısıtlama | L-braket: alt yüzde Fixed dururken üst yüze ikinci bir Fixed | Mesnetler birbirine karşı çalışıyorsa iç kuvvet oranı > 3; aynı yönde çalışıyorsa "mesnet neredeyse yüksüz" (payı < %5) | gerçek (`katalog_gercek_20261117`: yan yüze ikinci Fixed yükün %99,9'unu aldı, oran 1, tepe 183 → 65 MPa) |
 | 8 | Deliğe Fixed Support | Plaka: sol uç yerine delik yüzüne Fixed | "Fixed Support silindirik yüze uygulanmış (R 5 mm)", Cylindrical Support önerisi | sentetik |
 | 9 | Lineer eleman | Aks: Mesh › Element Order = Linear | "Eleman derecesi LINEAR" uyarısı; gerilme kuadratikten belirgin düşük | sentetik |
 | 10 | Kalınlık boyunca tek eleman | Plaka: `feacheck converge --sizes 10,7,5` | "Kalınlık boyunca ~1 eleman" uyarısı | sentetik |

@@ -534,9 +534,25 @@ def evaluate(raw: dict, cfg: dict) -> dict:
         if len(per) >= 2 and (ratio is None or ratio > 3.0):
             out["findings"].append(
                 "Mesnetler birbirine karşı çalışıyor: tek tek tepkilerin toplamı net tepkinin "
-                + (f"{ratio:.1f} katı" if ratio else "çok üstünde (net tepki ≈ 0)")
+                + (f"{ratio:.1f} katı".replace(".", ",") if ratio else "çok üstünde (net tepki ≈ 0)")
                 + ". Parça aşırı kısıtlanmış olabilir (ör. iki uçtan Fixed). Gerçek bağlantı gerçekten böyle mi? "
                   "Değilse mesnetlerden birini serbestlik bırakan bir tiple değiştir.")
+
+        # Yük yolu kısa devresi: mesnetler aynı yönde çalışınca oran ≈ 1 kalır, ama biri neredeyse hiç yük
+        # taşımıyorsa diğeri yükü parçaya uğramadan alıyor demektir (öz test 17.11: ikinci Fixed %99,9 aldı,
+        # tepe 183 → 65 MPa). Eşik %5 ilk ayar.
+        if len(per) >= 2 and sum(mags) > 1e-9:
+            share = [m / sum(mags) for m in mags]
+            out["support_reactions"]["shares"] = [round(x, 4) for x in share]
+            idle = [s_["name"] for s_, x in zip(per, share) if x < 0.05]
+            if idle:
+                big = max(zip(share, per), key=lambda t: t[0])
+                pct = f"{100 * big[0]:.1f}".replace(".", ",")
+                out["findings"].append(
+                    f"Mesnet neredeyse yüksüz: {', '.join(idle)} toplam tepkinin %5'inden azını taşıyor; yükün "
+                    f"%{pct}'ini '{big[1]['name']}' alıyor. Ya bu mesnet gereksiz ya da diğeri yükü parçadan "
+                    "geçirmeden kısa devre ediyor (aşırı kısıtlama); gerilme olduğundan düşük çıkabilir. "
+                    "Gerçek bağlantıyı kontrol et.")
 
     # ---- montaj bağlantıları (temas, mafsal, kiriş bağlantısı)
     _connections(raw, out)

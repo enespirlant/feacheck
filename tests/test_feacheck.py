@@ -439,7 +439,10 @@ def test_oz_test_degerlendirme(tmp_path):
             if (lv.get(k) or {}).get("value") is not None:
                 lv[k]["value"] *= 5
     put("yuk_x5", x5, "x5")
-    put("ikinci_fixed", base, "ikinci Fixed")
+    fx2 = copy.deepcopy(base)  # gerçek 17.11 koşusundaki gibi: ikinci Fixed yükün neredeyse tamamını alır
+    fx2["levels"][-1]["reactions_by_support"] = [{"name": "Fixed Support", "r_n": [-0.65, 0.0, -0.63]},
+                                                 {"name": "FEACHECK_KATALOG_Fixed2", "r_n": [1000.65, 0.0, 0.63]}]
+    put("ikinci_fixed", fx2, "ikinci Fixed")
     cyl = copy.deepcopy(base)
     cyl["tree"].append({"type": "FixedSupport", "name": "FEACHECK_KATALOG_EgriFixed", "state": "Solved",
                         "suppressed": False, "faces": [{"id": 9, "c": [15, 15, 15], "area_mm2": 236.0,
@@ -449,8 +452,8 @@ def test_oz_test_degerlendirme(tmp_path):
                       "warnings": [], "levels": []}, "mesnetler bastırıldı")
     out = run_catalog(tmp_path, open_browser=False)
     page = out.read_text(encoding="utf-8")
-    assert "5 geçti, 0 kaldı" in page, page[page.find("<h1>"):page.find("</h1>")]
-    assert "ölçüm" in page and (tmp_path / "rapor_lineer.html").exists()
+    assert "6 geçti, 0 kaldı" in page, page[page.find("<h1>"):page.find("</h1>")]
+    assert (tmp_path / "rapor_lineer.html").exists()
 
 
 def test_oz_test_vakalar_ayari_paylasmaz(tmp_path):

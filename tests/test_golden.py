@@ -361,3 +361,19 @@ def test_r1_gercek_kosu_yakinsamaz_gosterge():
     ind = r["indicative_stress"]
     assert ind["value_mpa"] == pytest.approx(365.6, abs=0.1) and ind["verdict"] == "yakınsamıyor"
     assert raw["radius_series"]["levels"][-1]["skipped"].startswith("dugum limiti")
+
+
+def test_oz_test_gercek_kosu_17_11(tmp_path):
+    """GERÇEK öz test (Ansys, L-braket R5, 17.11): 6 vakanın 6'sı beklenen uyarıyı vermeli. İkinci Fixed yükün %99,9'unu
+    alıyordu (tepkiler aynı yönde, iç kuvvet oranı 1) ve eski kontrol kaçırıyordu; 'mesnet neredeyse yüksüz' yakalar."""
+    import re
+    import shutil
+    from pathlib import Path as _P
+
+    from feacheck.selftest import run_catalog
+    src = _P(__file__).parent / "fixtures" / "katalog_gercek_20261117"
+    for f in src.glob("raw_*.json"):
+        shutil.copy(f, tmp_path / f.name)
+    html = run_catalog(tmp_path, open_browser=False).read_text(encoding="utf-8")
+    assert re.search(r"6 geçti, 0 kaldı", html), re.findall(r"\d+ geçti, \d+ kaldı", html)
+    assert "Mesnet neredeyse yüksüz" in html and "99,9" in html

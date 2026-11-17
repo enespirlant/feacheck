@@ -190,3 +190,10 @@ Kaba mesh'te radyusun çokgen gibi temsil edilmesi tepeyi biraz şişiriyor olab
 - Verim torku tekrar çarpıyordu; artık yalnız dişli kaybı (milde ölçülen torkta 1). "Aks momenti" adı yanlıştı:
   Fx·r teker torkudur → `T_teker_Nmm`.
 - L-braket 1000 N: düşey tasarım 215 N'a göre 4,65× → "çok ihtiyatlı" (değişmedi). 97 test geçiyor.
+
+## 2026-11-17 17:00 — öz test Ansys'te tamamlandı
+- Düzeltilmiş öz test: 5 geçti + 1 ölçüm. Temel R5 179,8 → 182,0 → 183,6 (üçüncü kez birebir). Yük ×5 çalıştı (−5000 N).
+- ikinci_fixed ölçümü bir açık gösterdi: ikinci Fixed (yan yüz, y = 30) 1000,65 N, asıl Fixed 0,9 N; tepkiler aynı yönde
+  → iç kuvvet oranı 1, uyarı yok; tepe 183 → 65 MPa (tehlikeli iyimser). "Mesnet neredeyse yüksüz" (pay < %5) eklendi;
+  vaka artık geçti/kaldı. Gerçek koşu golden test: 6 geçti, 0 kaldı.
+- R2 + araç yükü penceresi hâlâ koşulmadı. 97 test geçiyor.
