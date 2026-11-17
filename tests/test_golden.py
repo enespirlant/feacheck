@@ -377,3 +377,21 @@ def test_oz_test_gercek_kosu_17_11(tmp_path):
     html = run_catalog(tmp_path, open_browser=False).read_text(encoding="utf-8")
     assert re.search(r"6 geçti, 0 kaldı", html), re.findall(r"\d+ geçti, \d+ kaldı", html)
     assert "Mesnet neredeyse yüksüz" in html and "99,9" in html
+
+
+def test_oz_test_gercek_r2_cozulemeyen_vakalar(tmp_path):
+    """GERÇEK öz test, L-braket R2 (17.11): ikinci_fixed ve egri_yuze_fixed Ansys'te hiç çözülemedi (NotSolved).
+    Bunlar feacheck'in tespitini sınamadığı için 'kaldı' değil 'çözülemedi' sayılmalı. Temel radyus serisi
+    253,3 → 261,0 → 260,6 MPa (Winkler el hesabı 255,7)."""
+    import json as _j
+    import shutil
+    from pathlib import Path as _P
+
+    from feacheck.selftest import run_catalog
+    src = _P(__file__).parent / "fixtures" / "katalog_gercek_r2_20261117"
+    for f in src.glob("raw_*.json"):
+        shutil.copy(f, tmp_path / f.name)
+    html = run_catalog(tmp_path, open_browser=False).read_text(encoding="utf-8")
+    assert "4 geçti, 0 kaldı, 2 çözülemedi" in html
+    t = _j.loads((src / "raw_temel.json").read_text(encoding="utf-8"))
+    assert [round(l["max_vm"], 1) for l in t["radius_series"]["levels"] if l.get("max_vm")] == [253.3, 261.0, 260.6]

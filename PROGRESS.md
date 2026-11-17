@@ -197,3 +197,10 @@ Kaba mesh'te radyusun çokgen gibi temsil edilmesi tepeyi biraz şişiriyor olab
   → iç kuvvet oranı 1, uyarı yok; tepe 183 → 65 MPa (tehlikeli iyimser). "Mesnet neredeyse yüksüz" (pay < %5) eklendi;
   vaka artık geçti/kaldı. Gerçek koşu golden test: 6 geçti, 0 kaldı.
 - R2 + araç yükü penceresi hâlâ koşulmadı. 97 test geçiyor.
+
+## 2026-11-17 17:15 — öz test R2'de
+- Kullanıcı öz testi R2 modelinde koştu (buton değil). Temel: radyus serisi 253,3 → 261,0 → 260,6 MPa, Winkler 255,7 (%1,9).
+  Seri R5 / R2 / R1 Winkler (M = F·60 mm) ile tutarlı: 183,6/186,1; 260,6/255,7; 365,6/349,9.
+- ikinci_fixed ve egri_yuze_fixed Ansys'te NotSolved (anında, çözüm süresi yok); neden bilinmiyor, Mechanical mesajları
+  görülmedi. Öz test artık bunları "kaldı" değil "çözülemedi" sayıyor. Golden test: 4 geçti, 0 kaldı, 2 çözülemedi.
+- Butondaki araç yükü penceresi hâlâ denenmedi. 98 test geçiyor.

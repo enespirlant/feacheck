@@ -298,7 +298,7 @@ def run_catalog(folder: Path, open_browser: bool = True) -> Path:
         if res.get("levels"):
             write(res, folder / f"rapor_{cid}.html")
     base = results.get("temel")
-    n_ok = n_fail = 0
+    n_ok = n_fail = n_uns = 0
     for cid, (what, check) in EXPECT.items():
         raw = raws.get(cid)
         res = results.get(cid)
@@ -312,6 +312,11 @@ def run_catalog(folder: Path, open_browser: bool = True) -> Path:
             status = "ölçüm"
             detail = (f"iç kuvvet oranı Σ|R|/|ΣR| = {tr(sr.get('internal_force_ratio'), 3)}; "
                       f"ham tepe {tr(_peak(res))} MPa (temel {tr(_peak(base) if base else None)})")
+        elif any("cozum basarisiz" in e for e in (raw.get("errors") or [])) and not any(
+                lv.get("state") == "Solved" for lv in (raw.get("levels") or [])):
+            # Ansys vakayı hiç çözemedi: feacheck'in tespitini sınamadı, "kaldı" sayılmaz
+            status, detail = "çözülemedi", "; ".join(raw.get("errors") or [])[:300]
+            n_uns += 1
         else:
             ok = bool(check(res, base))
             status = "geçti" if ok else "KALDI"
@@ -323,7 +328,8 @@ def run_catalog(folder: Path, open_browser: bool = True) -> Path:
                 detail = f"tepe oranı {tr(r, 3)}. " + detail
         rows.append((cid, change, what, status, detail))
     model = (next(iter(raws.values()), {}) or {}).get("model_name", "model")
-    cls = {"geçti": "ok", "KALDI": "bad", "ölçüm": "mid", "atlandı": "mid", "yok": "mid"}
+    uns_txt = f", {n_uns} çözülemedi" if n_uns else ""
+    cls = {"geçti": "ok", "KALDI": "bad", "ölçüm": "mid", "atlandı": "mid", "yok": "mid", "çözülemedi": "mid"}
     trs = "".join(f"<tr class='{cls[s]}'><td>{html.escape(c)}</td><td>{html.escape(ch)}</td><td>{html.escape(w)}</td>"
                   f"<td><b>{s}</b></td><td>{html.escape(d)}"
                   + (f" <a href='rapor_{c}.html'>rapor</a>" if (folder / f'rapor_{c}.html').exists() else "")
@@ -334,7 +340,7 @@ main{{max-width:1100px;margin:0 auto;padding:36px 24px}} h1{{font:600 28px Bahns
 table{{border-collapse:collapse;width:100%;background:#fff;font-size:14px}} td,th{{border-bottom:1px solid #D9E0E7;padding:8px;
 text-align:left;vertical-align:top}} th{{color:#5F6B78;font-weight:500}} tr.ok b{{color:#2E7D4F}} tr.bad b{{color:#B42318}}
 tr.mid b{{color:#A8650F}} .sub{{color:#5F6B78}}</style><main>
-<h1>Öz test: {n_ok} geçti, {n_fail} kaldı</h1>
+<h1>Öz test: {n_ok} geçti, {n_fail} kaldı{uns_txt}</h1>
 <p class="sub">{html.escape(model)}. Model her vakada bilerek bozuldu, feacheck koşuldu ve model geri alındı.
 "Ölçüm" satırları geçti/kaldı değil, eşik ayarı için veri.</p>
 <table><tr><th>Vaka</th><th>Ne değişti</th><th>Beklenen</th><th>Sonuç</th><th>Ayrıntı</th></tr>{trs}</table></main></html>"""

@@ -11,6 +11,7 @@
 - Öz test: bir vakanın kurulum hatası tüm döngüyü durduruyordu; yük ×5 Ansys'te çalışmıyordu (SetDiscreteValue).
 - Araç yükü: çekiş en yüklü tekere göre (`k_teker`, `cekis_tasarim`); verim yalnız dişli kaybı; "aks momenti" → teker torku.
 - Aşırı kısıtlama metninde noktalı ondalık.
+- Öz test: Ansys'in hiç çözemediği vaka "kaldı" yerine "çözülemedi" sayılır.
 - `examples/make_lbraket.py`: L-braket STEP üretici (R0/R5 mevcut dosyalarla birebir aynı hacim ve yüzler; R1, R2 üretildi).
 - `handcalc.rover_wheel_loads`: teker başına düşey/tasarım/çekiş/yanal yük ve aks momenti; çekişi motor ya da zemin sınırlar.
 - **Araç yükü kıyası:** `arac.yaml` (araç başına bir kez) + butonda tek soru (kuvvet düşey/çekiş/yanal, model adına göre

@@ -47,6 +47,8 @@ Tüm HTML raporlar `examples/reports/` altında; `python examples/make_reports.p
 | Denge (aks) | 500 N | 500 N | %0,0 | ✓ |
 | L-braket, keskin iç köşe | Eğilme 133,3 MPa | 133,7 MPa (köşe hariç) | %0,3 | Geometrik tekillik ayrıldı (tepe 137→159→196 MPa ıraksıyor) |
 | L-braket, R5 radyus | Alt sınır 168 MPa (omuz Kt), üst 201 MPa (Winkler) | 183,6 MPa ince mesh, 198,3 MPa ihtiyatlı (GCI %8) | aralıkta | Yalnız yüzey inceltilince yakınsamadı (186,2'ye tırmandı, araç reddetti); radyus altı hacim de inceltilince yakınsadı. p = 0,70 düşük → Fs = 3, güven düşük |
+| L-braket, R2 radyus | Winkler eğri kiriş (M = F·60 mm) + F/A = 255,7 MPa | 260,6 MPa (radyus serisi 253,3 → 261,0 → 260,6) | %1,9 | Yakınsadı (17.11, gerçek koşu) |
+| L-braket, R1 radyus | Winkler aynı varsayımla 349,9 MPa | 365,6 MPa gösterge (354,8 → 357,9 → 365,6) | %4,5 | Yakınsamadı: artış hızlanıyor, 4. seviye 128 bin düğüm sınırına takıldı; araç güvenilir demedi |
 
 ## Kurulum (Windows, bir kez)
 
