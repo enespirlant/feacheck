@@ -69,7 +69,7 @@ teker çapı, motor torku, bağlantı şekli).
 - ~~Ansys'te yapılacak~~ (15.11 yapıldı, sonuç PROGRESS.md'de): `L_braket_R5.step` ile butona bas (sınır şartları
   TALIMAT'taki gibi). Beklenen: global seri "çözünürlük yetersiz", ardından otomatik radyus serisi
   (yerel h ≈ 1,25 → 0,83 → 0,56 mm, radyusta 6 → 9 → 14 eleman). Rozet "GÜVENİLİR · RADYUS YEREL
-  SIKLAŞTIRMAYLA ÇÖZÜLDÜ" olmalı. Ham JSON'u (`C:\Users\pirla\feacheck\inbox\raw_*.json`) bana ver.
+  SIKLAŞTIRMAYLA ÇÖZÜLDÜ" olmalı. Ham JSON'u (`<veri klasörü>\inbox\raw_*.json`) bana ver.
 - Eski `_v2` fixture adları ters (silme izni olmadığı için silinmedi); istersen elle silebilirsin.
 - [x] 14. İngilizce README (README.en.md) + Türkçe README'de L-braket satırları
 - [x] 15. Demo: örnek HTML raporları (keskin köşe + R5) examples/ altına, README'ye ekran görüntüsü
