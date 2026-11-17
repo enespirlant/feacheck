@@ -344,3 +344,20 @@ def test_montaj_baglantilari_sentetik(tmp_path):
     f = bag(evaluate(c, st))
     assert any("doğrusal olmayan temas var (Frictional: 1)" in x for x in f)
     assert not any("en yüksek gerilme" in x for x in f)
+
+
+def test_r1_gercek_kosu_yakinsamaz_gosterge():
+    """17.11 gerçek R1 koşusu: radyus 354,8 → 357,9 → 365,6 MPa (artış hızlanıyor), 4. seviye düğüm limitine takıldı.
+    Araç güvenilir dememeli; gösterge ≈ 365,6 MPa (Winkler el hesabı ≈ 350 MPa, %4,5 içinde)."""
+    import json as _j
+    import tempfile as _t
+    from pathlib import Path as _P
+
+    from feacheck.app import finalize
+    from feacheck.store import Store
+    raw = _j.loads((_P(__file__).parent / "fixtures" / "lbraket_r1_radyus.json").read_text(encoding="utf-8"))
+    _, _, r = finalize(raw, store=Store(_P(_t.mkdtemp())), open_browser=False, tol=5)
+    assert not r.get("design_stress")
+    ind = r["indicative_stress"]
+    assert ind["value_mpa"] == pytest.approx(365.6, abs=0.1) and ind["verdict"] == "yakınsamıyor"
+    assert raw["radius_series"]["levels"][-1]["skipped"].startswith("dugum limiti")

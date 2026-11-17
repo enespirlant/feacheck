@@ -173,3 +173,13 @@ Kaba mesh'te radyusun çokgen gibi temsil edilmesi tepeyi biraz şişiriyor olab
 - Buton penceresi ANSYS'TE DENENMEDİ (ASCII + sözdizimi testli).
 - 94 test geçiyor.
 
+## 2026-11-17 16:00 — ilk Ansys son kontrolleri
+- Öz test iki kez 2 vakadan sonra durdu (temel, lineer tamam; özet yok). Neden: yuk_x5 vakasındaki hata yakalanmıyordu,
+  tüm döngü düşüyordu. Düzeltme: her vaka kurulumu genel hatada "atlandı (neden)" olur, döngü sürer; yük x5 önce
+  SetDiscreteValue ile dener, olmazsa listeyle; hata olursa değiştirdiği alanları geri alır. ANSYS'TE TEKRAR DENENECEK.
+- R1 (yeni STEP): radyus serisi 354,8 → 357,9 → 365,6 MPa, tepe radyus ortasında; 4. seviye düğüm limiti (191 751).
+  Hüküm "yakınsamıyor, gösterge 365,6". Winkler el hesabı ≈ 350 MPa (%4,5). Golden test eklendi.
+- İlk R1 denemesi UnderDefined ile durdu (muhtemelen mesnet henüz atanmamıştı); ikinci deneme sorunsuz.
+- R2 ve araç yükü penceresi henüz koşulmadı (arac.yaml boş).
+- 95 test geçiyor.
+

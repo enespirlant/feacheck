@@ -109,12 +109,27 @@ def kat_lineer():
     return undo, "Mesh > Element Order = Linear"
 
 
+def _kat_set_vals(fld, vals):
+    # Once indeksle (SetDiscreteValue), olmazsa listeyi topluca ata.
+    try:
+        for i, v in enumerate(vals):
+            fld.Output.SetDiscreteValue(i, v)
+    except Exception:
+        fld.Output.DiscreteValues = vals
+
+
 def kat_yuk_x5():
     saved = []
+    errs = []
+
+    def undo():
+        for fld, vals in saved:
+            _kat_set_vals(fld, vals)
     for c in _KAT_A.Children:
         if type(c).__name__ != "Force" or getattr(c, "Suppressed", False):
             continue
-        for prop in ("Magnitude", "XComponent", "YComponent", "ZComponent"):
+        comp = "Component" in str(getattr(c, "DefineBy", ""))
+        for prop in (("XComponent", "YComponent", "ZComponent") if comp else ("Magnitude",)):
             try:
                 fld = getattr(c, prop)
                 vals = list(fld.Output.DiscreteValues)
@@ -122,14 +137,15 @@ def kat_yuk_x5():
                 continue
             if not vals:
                 continue
-            saved.append((fld, vals))
-            fld.Output.DiscreteValues = [Quantity(v.Value * 5.0, v.Unit) for v in vals]
+            try:
+                _kat_set_vals(fld, [Quantity(v.Value * 5.0, v.Unit) for v in vals])
+                saved.append((fld, vals))
+            except Exception as _e:
+                errs.append("%s.%s: %s" % (c.Name, prop, _e))
+                undo()
+                raise _KatSkip("yuk degistirilemedi (%s)" % "; ".join(errs)[:150])
     if not saved:
         raise _KatSkip("analizde Force yok")
-
-    def undo():
-        for fld, vals in saved:
-            fld.Output.DiscreteValues = vals
     return undo, "tum Force buyuklukleri x5"
 
 
@@ -189,9 +205,10 @@ else:
         try:
             try:
                 _undo, _note = _fn()
-            except _KatSkip as _s:
-                R["catalog_case"] = {"id": _cid, "skipped": str(_s)}
-                _KAT_SUM.append("%s: atlandi (%s)" % (_cid, _s))
+            except Exception as _s:
+                _why = str(_s) if isinstance(_s, _KatSkip) else "kurulamadi: %s" % _s
+                R["catalog_case"] = {"id": _cid, "skipped": _why}
+                _KAT_SUM.append("%s: atlandi (%s)" % (_cid, _why))
                 _f = open(_KAT_OUT + "\\raw_" + _cid + ".json", "w")
                 _f.write(tojson(R))
                 _f.close()
