@@ -1,5 +1,12 @@
 # feacheck — Ajan günlüğü
 
+## 2026-11-17 (buton + araç yükü penceresi Ansys'te)
+**Yapılanlar**
+- R5 modelinde buton koşusu: pencereye 1 (düşey) girildi, `yuk_tipleri.txt` model adına `duzey` yazdı.
+  Rapor: 183,6 MPa (GCI %8, el hesabı 168–201 içinde), "Araç yükü" satırı sarı, 1000 N / 215 N = 4,65
+  "çok ihtiyatlı". Araç yükü özelliği artık Ansys'te doğrulandı.
+- Raporda "çekiş sınırı" notu yalnız çekiş kıyasında gösteriliyor (düşey kıyasta anlamsızdı).
+
 ## 2026-11-15 (ajan çalıştırması 1)
 **Yapılanlar**
 - Faz 1a koşuları (keskin köşe 133,7 MPa; R5 "çözünürlük yetersiz") doğru adla golden teste bağlandı.

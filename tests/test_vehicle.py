@@ -38,7 +38,8 @@ def test_finalize_rapora_ekler(tmp_path):
     raw = json.loads((FIX / "lbraket_r5_buyume_12.json").read_text(encoding="utf-8"))  # 1000 N
     _, html, res = finalize(raw, store=Store(tmp_path), open_browser=False, yuk_tipi="duzey", tol=5)
     assert res["vehicle_load"]["durum"] == "çok ihtiyatlı"
-    assert "Araç yükü" in html.read_text(encoding="utf-8")
+    page = html.read_text(encoding="utf-8")
+    assert "Araç yükü" in page and "çekiş sınırı" not in page  # düşey kıyasta çekiş sınırı anlamsız
     _, _, res2 = finalize(raw, store=Store(tmp_path), open_browser=False, yuk_tipi=None, tol=5)
     assert "vehicle_load" not in res2
 
